@@ -12,7 +12,17 @@ export default defineNuxtConfig({
       ripple: true
     },
     components: {
-      include: ['Menubar', 'Button', 'Avatar', 'Accordion', 'AccordionTab', 'Dialog', 'InputText','Card', 'Dropdown']
-    }
+      include: ['Menubar', 'Button', 'Avatar', 'Accordion', 'AccordionTab', 'Dialog', 'InputText','Card', 'Dropdown', 'RadioButton', 'InputNumber']
+    },
+  },
+  css: [
+    "primevue/resources/themes/lara-light-green/theme.css",
+    "primeicons/primeicons.css"
+  ],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
   },
 })
