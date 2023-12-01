@@ -12,7 +12,8 @@
                     <div class="vue-flow__node-output" :draggable="true" @dragstart="onDragStart($event, 'counter')">Counter Node</div>
 
                     <div class="vue-flow__node-output" :draggable="true" @dragstart="onDragStart($event, 'clock')">Clock box</div>
-                    <div class="vue-flow__node-output" :draggable="true" @dragstart="onDragStart($event, 'radio')">Radio box</div>
+                    <div class="vue-flow__node-output" :draggable="true" @dragstart="onDragStart($event, 'generator')">generator box</div>
+                    <div class="vue-flow__node-output" :draggable="true" @dragstart="onDragStart($event, 'consumer')">consumer box</div>
                   </div>
                 </aside>
       </template>

@@ -1,7 +1,7 @@
 <template >
   <div @drop="onDrop" class="dndflow">
   <Navbar></Navbar>
-  <VueFlow @dragover="onDragOver" v-model="initialElements" class="basicflow" :default-viewport="{ zoom: 1.5 }"  :node-types="nodesTypes" :min-zoom="0.2" :max-zoom="4" snap-to-grid="true" :snap-grid="snapGrid">
+  <VueFlow @dragover="onDragOver" v-model="initialElements" class="basicflow"  :default-viewport="{ zoom: 1.5 }" :default-edge-options="{ type: 'smoothstep' }"  :node-types="nodesTypes" :min-zoom="0.2" :max-zoom="4" snap-to-grid="true" :snap-grid="snapGrid">
     <Background :pattern-color="dark ? '#FFFFFB' : '#aaa'" gap="8" />
 
     <MiniMap />
@@ -15,8 +15,8 @@
 
 
 
-    <template #edge-custom="edgeProps">
-      <CustomEdge v-bind="edgeProps" />
+    <template #edge-custom="props">
+      <CustomEdge v-bind="props" />
     </template>
 
   </VueFlow>
@@ -37,6 +37,8 @@ import {ref} from "vue"
 import DividerNode from "~/components/CustomNode/DividerNode.vue";
 import ClockBox from "~/components/CustomNode/ClockBox.vue";
 import RadioNode from "~/components/CustomNode/RadioNode.vue";
+import ClockGenerator from "~/components/CustomNode/ClockGenerator.vue";
+import Consumer from "~/components/CustomNode/Consumer.vue";
 
 
 const { onPaneReady, nodes, onNodeDragStop, addNodes, onConnect, addEdges, project, findNode, vueFlowRef, dimensions, setTransform, toObject } = useVueFlow()
@@ -54,6 +56,11 @@ const nodesTypes = {
   counter: CustomNode,
   clock: ClockBox,
   radio: RadioNode,
+  generator: ClockGenerator,
+  consumer: Consumer
+}
+const edgeTypes = {
+  close: CustomEdge
 }
 
 let id = 0
@@ -101,50 +108,9 @@ function onDrop(event) {
   })
 }
 
-function updatePos() {
-  return elements.value.forEach((el) => {
-    if (isNode(el)) {
-      el.position = {
-        x: Math.random() * 400,
-        y: Math.random() * 400,
-      }
-    }
-  })
-}
-
-
-function addNode(type) {
-  const nodeId = (nodes.value.length + 1).toString()
-
-  switch (type){
-    case 'divider':
-      console.log('divider')
-      const divider = {
-        id: nodeId,
-        label: `Node: ${nodeId}`,
-        position: { x: Math.random() * dimensions.value.width/2, y: Math.random() * dimensions.value.height/2 },
-        type: 'divider'
-      }
-      addNodes([divider])
-      break
-    case 'clock':
-      console.log('cloc')
-        const custom = {
-          id: nodeId,
-          label: `Node: ${nodeId}`,
-          position: { x: Math.random() * dimensions.value.width/2, y: Math.random() * dimensions.value.height/2 },
-          type: 'counter'
-        }
-        addNodes([custom])
-        break;
-    }
-
-
-}
-
 
 const initialElements = [
-  { id: '1', type: 'input', label: 'Node 1', position: { x: 250, y: 0 }, class: 'light' },
+  { id: '1', type: 'generator', label: 'Node 1', position: { x: 250, y: 0 }, class: 'light' },
 
 ]
 

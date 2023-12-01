@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Handle, Position } from '@vue-flow/core'
+import {getIncomers, getOutgoers, Handle, Position} from '@vue-flow/core'
 import { ref } from 'vue'
 
 
@@ -10,14 +10,35 @@ const radioType = ref([
   {name: 'Type3', key: 3},
 ])
 
+const targetHandleStyleA = computed(() => ({
+  filter: 'invert(100%)',
+  top: '10px',
+
+}))
+
+const targetHandleStyleB = computed(() => ({
+  filter: 'invert(100%)',
+  top: '50px',
+}))
+
+const targetHandleStyleC = computed(() => ({
+  filter: 'invert(100%)',
+  top: '90px',
+
+}))
+
 </script>
 
 <template>
   <div class="custom-node">
+    <Handle id="a" type="target" :position="Position.Left" :style="targetHandleStyleA" />
+    <Handle id="b" type="target" :position="Position.Left" :style="targetHandleStyleB" />
+    <Handle id="c" type="target" :position="Position.Left" :style="targetHandleStyleC" />
+    <Handle type="source" :position="Position.Right" />
     <div class="card flex justify-content-center">
       <div class="flex flex-column gap-3">
         <div v-for="radio in radioType" :key="radio.key" class="flex align-items-center">
-          <RadioButton v-model="selectedRadio" :inputId="radio.key" name="dynamic" :value="radio.name" />
+          <RadioButton v-model="selectedRadio" :inputId="radio.key" name="dynamic" :value="radio.name" @change="console.log(getIncomers())"/>
           <label :for="radio.key" class="ml-2">{{ radio.name }}</label>
         </div>
       </div>

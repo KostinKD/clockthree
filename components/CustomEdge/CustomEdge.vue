@@ -1,24 +1,66 @@
-<script lang="ts" setup>
-import { computed } from 'vue'
-import type { EdgeProps } from '@vue-flow/core'
+<script setup>
 import { BaseEdge, EdgeLabelRenderer, getBezierPath, useVueFlow } from '@vue-flow/core'
+import { computed } from 'vue'
 
-const props = defineProps<EdgeProps>()
+const props = defineProps({
+  id: {
+    type: String,
+    required: true,
+  },
+  sourceX: {
+    type: Number,
+    required: true,
+  },
+  sourceY: {
+    type: Number,
+    required: true,
+  },
+  targetX: {
+    type: Number,
+    required: true,
+  },
+  targetY: {
+    type: Number,
+    required: true,
+  },
+  sourcePosition: {
+    type: String,
+    required: true,
+  },
+  targetPosition: {
+    type: String,
+    required: true,
+  },
+  data: {
+    type: Object,
+    required: false,
+  },
+  markerEnd: {
+    type: String,
+    required: false,
+  },
+  style: {
+    type: Object,
+    required: false,
+  },
+})
 
 const { removeEdges } = useVueFlow()
 
 const path = computed(() => getBezierPath(props))
 </script>
 
-<script lang="ts">
+<script>
 export default {
   inheritAttrs: false,
 }
 </script>
 
 <template>
-  <BaseEdge :path="path[0]" />
+  <!-- You can use the `BaseEdge` component to create your own custom edge more easily -->
+  <BaseEdge :id="id" :style="style" :path="path[0]" :marker-end="markerEnd" />
 
+  <!-- Use the `EdgeLabelRenderer` to escape the SVG world of edges and render your own custom label in a `<div>` ctx -->
   <EdgeLabelRenderer>
     <div
         :style="{
@@ -32,14 +74,3 @@ export default {
     </div>
   </EdgeLabelRenderer>
 </template>
-
-<style>
-.edgebutton {
-  border-radius: 999px;
-  cursor: pointer;
-}
-
-.edgebutton:hover {
-  box-shadow: 0 0 0 2px pink, 0 0 0 4px #f05f75;
-}
-</style>
